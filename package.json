@@ -1,0 +1,14 @@
+{
+	"name": "dashmin",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"lint": "Hello World!",
+		"lint:fix": "Hello World!"
+	},
+	"author": "Zidan Abraham <zidangit07@gmail.com>",
+	"license": "ISC",
+	"devDependencies": {
+		"@biomejs/biome": "2.4.4"
+	}
+}

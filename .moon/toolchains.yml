@@ -1,0 +1,10 @@
+$schema: "https://moonrepo.dev/schemas/toolchains.json"
+
+javascript:
+  packageManager: "pnpm"
+
+node:
+  version: "v24.13.1"
+
+pnpm:
+  version: "10.29.3"

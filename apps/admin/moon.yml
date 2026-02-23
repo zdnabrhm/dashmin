@@ -1,0 +1,55 @@
+$schema: "https://moonrepo.dev/schemas/project.json"
+language: "typescript"
+layer: "application"
+stack: "frontend"
+tags: ["react", "vite"]
+
+dependsOn:
+  - "ui"
+
+fileGroups:
+  sources:
+    - "src/**/*"
+    - "index.html"
+    - "public/**/*"
+  configs:
+    - "tsconfig.json"
+    - "tsconfig.*.json"
+
+tasks:
+  dev:
+    command: "vite"
+    preset: "server"
+
+  build:
+    script: "tsc -b && vite build"
+    inputs:
+      - "@group(sources)"
+      - "@group(configs)"
+      - "vite.config.ts"
+    outputs:
+      - "dist"
+    deps:
+      - "ui:build"
+
+  start:
+    command: "vite preview"
+    preset: "server"
+
+  lint:
+    script: "biome check ."
+    inputs:
+      - "@group(sources)"
+      - "/biome.json"
+
+  lint-fix:
+    script: "biome check --write ."
+    inputs:
+      - "@group(sources)"
+      - "/biome.json"
+
+  typecheck:
+    command: "tsc -b --noEmit"
+    inputs:
+      - "@group(sources)"
+      - "@group(configs)"

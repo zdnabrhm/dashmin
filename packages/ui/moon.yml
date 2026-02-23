@@ -1,0 +1,41 @@
+$schema: "https://moonrepo.dev/schemas/project.json"
+language: "typescript"
+layer: "library"
+stack: "frontend"
+tags: ["react", "ui", "tailwind"]
+
+fileGroups:
+  sources:
+    - "src/**/*"
+  configs:
+    - "tsconfig.json"
+
+tasks:
+  dev:
+    command: "pnpm dlx @tailwindcss/cli -i ./src/style.css -o ./dist/style.css --watch"
+    preset: "server"
+
+  build:
+    command: "pnpm dlx @tailwindcss/cli -i ./src/style.css -o ./dist/style.css"
+    inputs:
+      - "@group(sources)"
+    outputs:
+      - "dist"
+
+  lint:
+    script: "biome check ."
+    inputs:
+      - "@group(sources)"
+      - "/biome.json"
+
+  lint-fix:
+    script: "biome check --write ."
+    inputs:
+      - "@group(sources)"
+      - "/biome.json"
+
+  typecheck:
+    command: "tsc --noEmit"
+    inputs:
+      - "@group(sources)"
+      - "@group(configs)"

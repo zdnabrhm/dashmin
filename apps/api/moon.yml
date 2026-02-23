@@ -1,0 +1,47 @@
+$schema: "https://moonrepo.dev/schemas/project.json"
+language: "typescript"
+layer: "application"
+stack: "backend"
+tags: ["hono", "api"]
+
+fileGroups:
+  sources:
+    - "src/**/*"
+  configs:
+    - "tsconfig.json"
+
+tasks:
+  dev:
+    command: "tsx watch src/index.ts"
+    preset: "server"
+
+  build:
+    command: "tsc"
+    inputs:
+      - "@group(sources)"
+      - "@group(configs)"
+    outputs:
+      - "dist"
+
+  start:
+    command: "node dist/index.js"
+    deps:
+      - "~:build"
+
+  lint:
+    script: "biome check ."
+    inputs:
+      - "@group(sources)"
+      - "/biome.json"
+
+  lint-fix:
+    script: "biome check --write ."
+    inputs:
+      - "@group(sources)"
+      - "/biome.json"
+
+  typecheck:
+    command: "tsc --noEmit"
+    inputs:
+      - "@group(sources)"
+      - "@group(configs)"
