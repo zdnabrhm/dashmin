@@ -20,6 +20,8 @@ tasks:
   dev:
     command: "vite"
     preset: "server"
+    deps:
+      - "ui:dev"
 
   build:
     script: "tsc -b && vite build"
