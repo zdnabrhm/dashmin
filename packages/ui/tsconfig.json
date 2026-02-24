@@ -11,7 +11,7 @@
 		"isolatedModules": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/ui/*": ["./src/*"]
 		}
 	},
 	"include": ["src"]
