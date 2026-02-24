@@ -16,12 +16,13 @@
 		"tailwindcss": "^4.2.0"
 	},
 	"devDependencies": {
+		"@dashmin/typescript-config": "workspace:*",
 		"@types/node": "^24.10.1",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react-swc": "^4.2.2",
 		"globals": "^16.5.0",
-		"typescript": "~5.9.3",
+		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.48.0",
 		"vite": "^7.3.1"
 	}

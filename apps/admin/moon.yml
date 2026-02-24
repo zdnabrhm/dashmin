@@ -15,6 +15,7 @@ fileGroups:
   configs:
     - "tsconfig.json"
     - "tsconfig.*.json"
+    - "/packages/typescript-config/*.json"
 
 tasks:
   dev:

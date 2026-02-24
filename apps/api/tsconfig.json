@@ -1,12 +1,6 @@
 {
+	"extends": "@dashmin/typescript-config/node.json",
 	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "Bundler",
-		"strict": true,
-		"verbatimModuleSyntax": true,
-		"skipLibCheck": true,
-		"types": ["node"],
 		"jsx": "react-jsx",
 		"jsxImportSource": "hono/jsx",
 		"outDir": "./dist",

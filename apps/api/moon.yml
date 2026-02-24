@@ -9,6 +9,7 @@ fileGroups:
     - "src/**/*"
   configs:
     - "tsconfig.json"
+    - "/packages/typescript-config/*.json"
 
 tasks:
   dev:

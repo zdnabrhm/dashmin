@@ -1,12 +1,7 @@
 {
+	"extends": "@dashmin/typescript-config/react.json",
 	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "bundler",
-		"jsx": "react-jsx",
-		"strict": true,
 		"noEmit": true,
-		"skipLibCheck": true,
 		"esModuleInterop": true,
 		"isolatedModules": true,
 		"baseUrl": ".",
