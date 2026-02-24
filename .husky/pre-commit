@@ -1,0 +1,2 @@
+moon run :fmt
+moon run :lint

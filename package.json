@@ -8,7 +8,11 @@
 		"@dotenvx/dotenvx": "^1.52.0"
 	},
 	"devDependencies": {
+		"husky": "^9.1.7",
 		"oxfmt": "^0.35.0",
 		"oxlint": "^1.50.0"
+	},
+	"scripts": {
+		"prepare": "husky"
 	}
 }
