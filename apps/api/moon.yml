@@ -12,7 +12,7 @@ fileGroups:
 
 tasks:
   dev:
-    command: "tsx watch src/index.ts"
+    command: "dotenvx run -f ../../.env -- tsx watch src/index.ts"
     preset: "server"
 
   build:
@@ -24,9 +24,27 @@ tasks:
       - "dist"
 
   start:
-    command: "node dist/index.js"
+    command: "dotenvx run -f ../../.env -- node dist/index.js"
     deps:
       - "~:build"
+
+  db-generate:
+    command: "dotenvx run -f ../../.env -- drizzle-kit generate"
+    options:
+      cache: false
+      runInCI: false
+
+  db-migrate:
+    command: "dotenvx run -f ../../.env -- drizzle-kit migrate"
+    options:
+      cache: false
+      runInCI: false
+
+  db-push:
+    command: "dotenvx run -f ../../.env -- drizzle-kit push"
+    options:
+      cache: false
+      runInCI: false
 
   lint:
     script: "biome check ."
