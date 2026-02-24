@@ -5,13 +5,13 @@ import App from "./app";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
-	throw new Error("Root element not found");
+  throw new Error("Root element not found");
 }
 
 if (!rootElement.innerHTML) {
-	createRoot(rootElement).render(
-		<StrictMode>
-			<App />
-		</StrictMode>,
-	);
+  createRoot(rootElement).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
 }

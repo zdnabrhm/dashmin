@@ -1,13 +1,13 @@
 {
-	"extends": "@dashmin/typescript-config/react.json",
-	"compilerOptions": {
-		"noEmit": true,
-		"esModuleInterop": true,
-		"isolatedModules": true,
-		"baseUrl": ".",
-		"paths": {
-			"@/ui/*": ["./src/*"]
-		}
-	},
-	"include": ["src"]
+  "extends": "@dashmin/typescript-config/react.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/ui/*": ["./src/*"]
+    }
+  },
+  "include": ["src"]
 }

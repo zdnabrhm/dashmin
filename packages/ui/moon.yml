@@ -23,17 +23,29 @@ tasks:
     outputs:
       - "dist"
 
-  lint:
-    script: "biome check ."
+  fmt:
+    script: "oxfmt ."
     inputs:
       - "@group(sources)"
-      - "/biome.json"
+      - "/.oxfmtrc.json"
+
+  fmt-check:
+    script: "oxfmt --check ."
+    inputs:
+      - "@group(sources)"
+      - "/.oxfmtrc.json"
+
+  lint:
+    script: "oxlint ."
+    inputs:
+      - "@group(sources)"
+      - "/.oxlintrc.json"
 
   lint-fix:
-    script: "biome check --write ."
+    script: "oxlint --fix ."
     inputs:
       - "@group(sources)"
-      - "/biome.json"
+      - "/.oxlintrc.json"
 
   typecheck:
     command: "tsc --noEmit"
