@@ -1,0 +1,8 @@
+{
+  "extends": "@dashmin/typescript-config/node.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["src", "drizzle.config.ts"],
+  "exclude": ["node_modules"]
+}

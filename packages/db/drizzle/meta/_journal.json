@@ -5,8 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1771903719539,
-      "tag": "0000_add_user_auth_tables",
+      "when": 1771980892742,
+      "tag": "0000_add_user_profile_tables",
       "breakpoints": true
     }
   ]

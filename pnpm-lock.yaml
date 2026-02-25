@@ -70,6 +70,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@dashmin/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@hono/node-server':
         specifier: ^1.19.9
         version: 1.19.9(hono@4.12.1)
@@ -92,6 +95,28 @@ importers:
       '@types/node':
         specifier: ^20.11.17
         version: 20.19.33
+      tsx:
+        specifier: ^4.7.1
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/db:
+    dependencies:
+      drizzle-orm:
+        specifier: ^0.45.1
+        version: 0.45.1(@types/pg@8.16.0)(kysely@0.28.11)(pg@8.18.0)
+      pg:
+        specifier: ^8.18.0
+        version: 8.18.0
+    devDependencies:
+      '@dashmin/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^20.11.17
+        version: 20.19.33
       '@types/pg':
         specifier: ^8.16.0
         version: 8.16.0
@@ -99,7 +124,7 @@ importers:
         specifier: ^0.31.9
         version: 0.31.9
       tsx:
-        specifier: ^4.7.1
+        specifier: ^4.21.0
         version: 4.21.0
       typescript:
         specifier: ^5.9.3

@@ -1,18 +1,21 @@
 {
-  "name": "@dashmin/api",
+  "name": "@dashmin/db",
+  "version": "0.0.0",
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "dependencies": {
-    "@dashmin/db": "workspace:*",
-    "@hono/node-server": "^1.19.9",
-    "better-auth": "^1.4.19",
     "drizzle-orm": "^0.45.1",
-    "hono": "^4.12.1",
     "pg": "^8.18.0"
   },
   "devDependencies": {
     "@dashmin/typescript-config": "workspace:*",
     "@types/node": "^20.11.17",
-    "tsx": "^4.7.1",
+    "@types/pg": "^8.16.0",
+    "drizzle-kit": "^0.31.9",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
-  }
+  },
+  "packageManager": "pnpm@10.29.3"
 }

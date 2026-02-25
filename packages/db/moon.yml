@@ -1,8 +1,8 @@
 $schema: "https://moonrepo.dev/schemas/project.json"
 language: "typescript"
-layer: "application"
+layer: "library"
 stack: "backend"
-tags: ["hono", "api"]
+tags: ["database"]
 
 fileGroups:
   sources:
@@ -12,22 +12,23 @@ fileGroups:
     - "/packages/typescript-config/*.json"
 
 tasks:
-  dev:
-    command: "dotenvx run -f ../../.env -- tsx watch src/index.ts"
-    preset: "server"
+  generate:
+    command: "dotenvx run -f ../../.env -- drizzle-kit generate"
+    options:
+      cache: false
+      runInCI: false
 
-  build:
-    command: "tsc"
-    inputs:
-      - "@group(sources)"
-      - "@group(configs)"
-    outputs:
-      - "dist"
+  migrate:
+    command: "dotenvx run -f ../../.env -- drizzle-kit migrate"
+    options:
+      cache: false
+      runInCI: false
 
-  start:
-    command: "dotenvx run -f ../../.env -- node dist/index.js"
-    deps:
-      - "~:build"
+  push:
+    command: "dotenvx run -f ../../.env -- drizzle-kit push"
+    options:
+      cache: false
+      runInCI: false
 
   fmt:
     script: "oxfmt ."
