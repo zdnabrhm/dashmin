@@ -13,11 +13,11 @@ fileGroups:
 
 tasks:
   dev:
-    command: "pnpm exec @tailwindcss/cli -i ./src/style.css -o ./dist/style.css --watch"
+    command: "pnpm exec tailwindcss -i ./src/style.css -o ./dist/style.css --watch"
     preset: "server"
 
   build:
-    command: "pnpm exec @tailwindcss/cli -i ./src/style.css -o ./dist/style.css"
+    command: "pnpm exec tailwindcss -i ./src/style.css -o ./dist/style.css"
     inputs:
       - "@group(sources)"
     outputs:
