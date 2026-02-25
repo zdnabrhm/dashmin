@@ -6,11 +6,13 @@
   "dependencies": {
     "@dashmin/ui": "workspace:*",
     "@tailwindcss/vite": "^4.2.0",
+    "hono": "^4.12.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.2.0"
   },
   "devDependencies": {
+    "@dashmin/api": "workspace:*",
     "@dashmin/typescript-config": "workspace:*",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",

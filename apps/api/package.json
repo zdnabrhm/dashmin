@@ -1,13 +1,17 @@
 {
   "name": "@dashmin/api",
   "type": "module",
+  "exports": {
+    ".": "./src/app.ts"
+  },
   "dependencies": {
     "@dashmin/db": "workspace:*",
     "@hono/node-server": "^1.19.9",
     "better-auth": "^1.4.19",
     "drizzle-orm": "^0.45.1",
     "hono": "^4.12.1",
-    "pg": "^8.18.0"
+    "pg": "^8.18.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@dashmin/typescript-config": "workspace:*",

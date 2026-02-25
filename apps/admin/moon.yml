@@ -23,6 +23,7 @@ tasks:
     preset: "server"
     deps:
       - "ui:dev"
+      - "api:dev"
 
   build:
     script: "tsc -b && vite build"
@@ -34,6 +35,7 @@ tasks:
       - "dist"
     deps:
       - "ui:build"
+      - "api:build"
 
   start:
     command: "vite preview"
