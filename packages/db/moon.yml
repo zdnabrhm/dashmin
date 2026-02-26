@@ -30,6 +30,10 @@ tasks:
       cache: false
       runInCI: false
 
+  seed:
+    command: "dotenvx run -f ../../.env -- tsx src/seed.ts"
+    preset: "utility"
+
   fmt:
     script: "oxfmt ."
     inputs:
