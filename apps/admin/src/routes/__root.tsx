@@ -4,6 +4,7 @@ import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Toaster } from "@dashmin/ui/components/sonner";
 import type { authClient } from "../lib/auth";
+import { TooltipProvider } from "@dashmin/ui/components/tooltip";
 
 interface RouterContext {
   queryClient: QueryClient;
@@ -19,10 +20,12 @@ function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
-      <Toaster position="top-center" />
-      <ReactQueryDevtools />
-      <TanStackRouterDevtools position="bottom-right" />
+      <TooltipProvider>
+        <Outlet />
+        <Toaster position="top-center" />
+        <ReactQueryDevtools />
+        <TanStackRouterDevtools position="bottom-right" />
+      </TooltipProvider>
     </QueryClientProvider>
   );
 }
