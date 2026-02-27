@@ -8,6 +8,12 @@ node_modules/
 # Build output
 dist
 dist-ssr
+.nitro
+.output
+.vinxi
+.wrangler
+.tanstack
+__unconfig*
 
 # Environment
 .env
@@ -38,10 +44,11 @@ lerna-debug.log*
 
 # Misc
 .DS_Store
+.claude
+todos.json
 *.local
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-.claude

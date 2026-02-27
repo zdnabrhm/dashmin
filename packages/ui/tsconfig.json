@@ -6,7 +6,7 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@/ui/*": ["./src/*"]
+      "@dashmin/ui/*": ["./src/*"]
     }
   },
   "include": ["src"]
