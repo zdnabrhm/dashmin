@@ -1,3 +1,4 @@
+import { queryKeys } from "@dashmin/admin/lib/query-keys";
 import { Card, CardContent, CardHeader, CardTitle } from "@dashmin/ui/components/card";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -11,12 +12,12 @@ function Dashboard() {
   const { session, authClient } = Route.useRouteContext();
 
   const { data: allUsers } = useQuery({
-    queryKey: ["admin", "users", "total"],
+    queryKey: queryKeys.users.stats.total,
     queryFn: () => authClient.admin.listUsers({ query: { limit: 1 } }),
   });
 
   const { data: bannedUsers } = useQuery({
-    queryKey: ["admin", "users", "banned"],
+    queryKey: queryKeys.users.stats.banned,
     queryFn: () =>
       authClient.admin.listUsers({
         query: {

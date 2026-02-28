@@ -17,6 +17,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@dashmin/admin": path.resolve(__dirname, "./src"),
+      "@dashmin/db": path.resolve(__dirname, "../../packages/db/src"),
       "@dashmin/ui/style.css": path.resolve(__dirname, "../../packages/ui/dist/style.css"),
       "@dashmin/ui": path.resolve(__dirname, "../../packages/ui/src"),
     },
