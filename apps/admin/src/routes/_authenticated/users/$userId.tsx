@@ -24,6 +24,7 @@ import { ArrowLeft01Icon, MoreVerticalCircle01Icon } from "@hugeicons/core-free-
 import { EditUserDialog } from "@dashmin/admin/features/users/components/edit-user-dialog";
 import { SetPasswordDialog } from "@dashmin/admin/features/users/components/set-password-dialog";
 import { BanUserDialog } from "@dashmin/admin/features/users/components/ban-user-dialog";
+import { UnbanUserDialog } from "@dashmin/admin/features/users/components/unban-user-dialog";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
   staticData: { title: "User Detail" },
@@ -52,7 +53,7 @@ function UserDetailPage() {
   const [editOpen, setEditOpen] = useState(false);
   const [setPasswordOpen, setSetPasswordOpen] = useState(false);
   const [banOpen, setBanOpen] = useState(false);
-  const [_unbanOpen, setUnbanOpen] = useState(false);
+  const [unbanOpen, setUnbanOpen] = useState(false);
   const [_deleteOpen, setDeleteOpen] = useState(false);
 
   if (isLoading) {
@@ -202,7 +203,7 @@ function UserDetailPage() {
       <EditUserDialog user={user} open={editOpen} onOpenChange={setEditOpen} />
       <SetPasswordDialog userId={userId} open={setPasswordOpen} onOpenChange={setSetPasswordOpen} />
       <BanUserDialog user={user} open={banOpen} onOpenChange={setBanOpen} />
-      {/* <UnbanUserDialog user={user} open={unbanOpen} onOpenChange={setUnbanOpen} /> */}
+      <UnbanUserDialog user={user} open={unbanOpen} onOpenChange={setUnbanOpen} />
       {/* <DeleteUserDialog user={user} open={deleteOpen} onOpenChange={setDeleteOpen} /> */}
     </div>
   );
