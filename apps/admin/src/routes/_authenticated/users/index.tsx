@@ -16,6 +16,7 @@ import {
 import { Button } from "@dashmin/ui/components/button";
 import { DataTable } from "@dashmin/admin/components/data-table";
 import { userColumns } from "@dashmin/admin/features/users/components/user-columns";
+import { CreateUserDialog } from "@dashmin/admin/features/users/components/create-user-dialog";
 
 export const Route = createFileRoute("/_authenticated/users/")({
   staticData: { title: "Users" },
@@ -30,7 +31,7 @@ function UsersPage() {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [sorting, setSorting] = useState<SortingState>([{ id: "createdAt", desc: true }]);
   const [search, setSearch] = useState("");
-  const [debouncedSearch] = useDebouncedValue(search, { wait: 500 });
+  const [debouncedSearch] = useDebouncedValue(search, { wait: 300 });
   const [activeFilter, setActiveFilter] = useState<
     { field: "role"; value: string } | { field: "banned"; value: boolean } | null
   >(null);
@@ -112,7 +113,7 @@ function UsersPage() {
   };
 
   // Create user dialog state
-  const [_createUserDialogOpen, setCreateUserDialogOpen] = useState(false);
+  const [createUserDialogOpen, setCreateUserDialogOpen] = useState(false);
 
   return (
     <div className="p-4 space-y-4">
@@ -212,6 +213,8 @@ function UsersPage() {
           </Button>
         </div>
       </div>
+
+      <CreateUserDialog open={createUserDialogOpen} onOpenChange={setCreateUserDialogOpen} />
     </div>
   );
 }
