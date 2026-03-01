@@ -5,6 +5,13 @@ import { toast } from "sonner";
 import { Button } from "@dashmin/ui/components/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@dashmin/ui/components/field";
 import { Input } from "@dashmin/ui/components/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@dashmin/ui/components/select";
 import { authClient } from "@dashmin/admin/lib/auth";
 import { queryKeys } from "@dashmin/admin/lib/query-keys";
 import {
@@ -19,10 +26,16 @@ import {
 const editUserSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.email("Please enter a valid email address"),
+  role: z.enum(["user", "admin"]),
 });
 
+const roleItems = [
+  { label: "User", value: "user" },
+  { label: "Admin", value: "admin" },
+];
+
 interface EditUserDialogProps {
-  user: { id: string; name: string; email: string };
+  user: { id: string; name: string; email: string; role?: string };
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -37,6 +50,14 @@ export function EditUserDialog({ user, open, onOpenChange }: EditUserDialogProps
         data: { name: values.name, email: values.email },
       });
       if (error) throw error;
+
+      if (values.role !== user.role) {
+        const { error: roleError } = await authClient.admin.setRole({
+          userId: user.id,
+          role: values.role,
+        });
+        if (roleError) throw roleError;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.users.all });
@@ -52,6 +73,7 @@ export function EditUserDialog({ user, open, onOpenChange }: EditUserDialogProps
     defaultValues: {
       name: user.name,
       email: user.email,
+      role: (user.role === "admin" ? "admin" : "user") as "admin" | "user",
     },
     validators: { onSubmit: editUserSchema },
     onSubmit: async ({ value }) => {
@@ -116,6 +138,33 @@ export function EditUserDialog({ user, open, onOpenChange }: EditUserDialogProps
                   </Field>
                 );
               }}
+            />
+
+            <form.Field
+              name="role"
+              children={(field) => (
+                <Field>
+                  <FieldLabel>Role</FieldLabel>
+                  <Select
+                    value={field.state.value}
+                    items={roleItems}
+                    onValueChange={(val) => {
+                      if (val) field.handleChange(val as "user" | "admin");
+                    }}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {roleItems.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </Field>
+              )}
             />
           </FieldGroup>
         </form>

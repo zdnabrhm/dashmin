@@ -22,7 +22,6 @@ import { queryKeys } from "@dashmin/admin/lib/query-keys";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon, MoreVerticalCircle01Icon } from "@hugeicons/core-free-icons";
 import { EditUserDialog } from "@dashmin/admin/features/users/components/edit-user-dialog";
-import { SetRoleDialog } from "@dashmin/admin/features/users/components/set-role-dialog";
 import { SetPasswordDialog } from "@dashmin/admin/features/users/components/set-password-dialog";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
@@ -50,7 +49,6 @@ function UserDetailPage() {
 
   // Dialog open states
   const [editOpen, setEditOpen] = useState(false);
-  const [setRoleOpen, setSetRoleOpen] = useState(false);
   const [setPasswordOpen, setSetPasswordOpen] = useState(false);
   const [_banOpen, setBanOpen] = useState(false);
   const [_unbanOpen, setUnbanOpen] = useState(false);
@@ -144,7 +142,6 @@ function UserDetailPage() {
                 <DropdownMenuGroup>
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                   <DropdownMenuItem onClick={() => setEditOpen(true)}>Edit User</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSetRoleOpen(true)}>Set Role</DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setSetPasswordOpen(true)}>
                     Set Password
                   </DropdownMenuItem>
@@ -202,7 +199,6 @@ function UserDetailPage() {
 
       {/* Action dialogs */}
       <EditUserDialog user={user} open={editOpen} onOpenChange={setEditOpen} />
-      <SetRoleDialog user={user} open={setRoleOpen} onOpenChange={setSetRoleOpen} />
       <SetPasswordDialog userId={userId} open={setPasswordOpen} onOpenChange={setSetPasswordOpen} />
       {/* <BanUserDialog user={user} open={banOpen} onOpenChange={setBanOpen} /> */}
       {/* <UnbanUserDialog user={user} open={unbanOpen} onOpenChange={setUnbanOpen} /> */}
