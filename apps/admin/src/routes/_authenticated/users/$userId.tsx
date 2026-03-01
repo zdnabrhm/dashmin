@@ -25,6 +25,7 @@ import { EditUserDialog } from "@dashmin/admin/features/users/components/edit-us
 import { SetPasswordDialog } from "@dashmin/admin/features/users/components/set-password-dialog";
 import { BanUserDialog } from "@dashmin/admin/features/users/components/ban-user-dialog";
 import { UnbanUserDialog } from "@dashmin/admin/features/users/components/unban-user-dialog";
+import { DeleteUserDialog } from "@dashmin/admin/features/users/components/delete-user-dialog";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
   staticData: { title: "User Detail" },
@@ -54,7 +55,7 @@ function UserDetailPage() {
   const [setPasswordOpen, setSetPasswordOpen] = useState(false);
   const [banOpen, setBanOpen] = useState(false);
   const [unbanOpen, setUnbanOpen] = useState(false);
-  const [_deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -204,7 +205,7 @@ function UserDetailPage() {
       <SetPasswordDialog userId={userId} open={setPasswordOpen} onOpenChange={setSetPasswordOpen} />
       <BanUserDialog user={user} open={banOpen} onOpenChange={setBanOpen} />
       <UnbanUserDialog user={user} open={unbanOpen} onOpenChange={setUnbanOpen} />
-      {/* <DeleteUserDialog user={user} open={deleteOpen} onOpenChange={setDeleteOpen} /> */}
+      <DeleteUserDialog user={user} open={deleteOpen} onOpenChange={setDeleteOpen} />
     </div>
   );
 }
