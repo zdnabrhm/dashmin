@@ -84,7 +84,7 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create user</DialogTitle>
+          <DialogTitle>Create User</DialogTitle>
           <DialogDescription>Add a new user to the system.</DialogDescription>
         </DialogHeader>
 
@@ -199,7 +199,7 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
               <Button type="submit" form="create-user-form" disabled={!canSubmit || isSubmitting}>
-                {isSubmitting ? "Creating..." : "Create user"}
+                {isSubmitting ? "Creating..." : "Create User"}
               </Button>
             )}
           />

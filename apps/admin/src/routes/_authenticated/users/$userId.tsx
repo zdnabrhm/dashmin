@@ -21,6 +21,7 @@ import { Skeleton } from "@dashmin/ui/components/skeleton";
 import { queryKeys } from "@dashmin/admin/lib/query-keys";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon, MoreVerticalCircle01Icon } from "@hugeicons/core-free-icons";
+import { EditUserDialog } from "@dashmin/admin/features/users/components/edit-user-dialog";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
   staticData: { title: "User Detail" },
@@ -46,7 +47,7 @@ function UserDetailPage() {
   });
 
   // Dialog open states
-  const [_editOpen, setEditOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [_setRoleOpen, setSetRoleOpen] = useState(false);
   const [_setPasswordOpen, setSetPasswordOpen] = useState(false);
   const [_banOpen, setBanOpen] = useState(false);
@@ -198,7 +199,7 @@ function UserDetailPage() {
       </Card>
 
       {/* Action dialogs */}
-      {/* <EditUserDialog user={user} open={editOpen} onOpenChange={setEditOpen} /> */}
+      <EditUserDialog user={user} open={editOpen} onOpenChange={setEditOpen} />
       {/* <SetRoleDialog user={user} open={setRoleOpen} onOpenChange={setSetRoleOpen} /> */}
       {/* <SetPasswordDialog userId={userId} open={setPasswordOpen} onOpenChange={setSetPasswordOpen} /> */}
       {/* <BanUserDialog user={user} open={banOpen} onOpenChange={setBanOpen} /> */}
