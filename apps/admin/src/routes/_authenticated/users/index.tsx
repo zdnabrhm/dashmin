@@ -9,7 +9,9 @@ import { Input } from "@dashmin/ui/components/input";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@dashmin/ui/components/select";
@@ -17,6 +19,18 @@ import { Button } from "@dashmin/ui/components/button";
 import { DataTable } from "@dashmin/admin/components/data-table";
 import { userColumns } from "@dashmin/admin/features/users/components/user-columns";
 import { CreateUserDialog } from "@dashmin/admin/features/users/components/create-user-dialog";
+
+const roleItems = [
+  { label: "All Roles", value: "all" },
+  { label: "Admin", value: "admin" },
+  { label: "User", value: "user" },
+];
+
+const statusItems = [
+  { label: "All Statuses", value: "all" },
+  { label: "Active", value: "active" },
+  { label: "Banned", value: "banned" },
+];
 
 export const Route = createFileRoute("/_authenticated/users/")({
   staticData: { title: "Users" },
@@ -130,32 +144,46 @@ function UsersPage() {
           />
 
           <Select
+            name="role"
+            items={roleItems}
             value={activeFilter?.field === "role" ? activeFilter.value : "all"}
             onValueChange={handleRoleFilter}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Role" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Roles</SelectItem>
-              <SelectItem value="admin">Admin</SelectItem>
-              <SelectItem value="user">User</SelectItem>
+              <SelectGroup>
+                <SelectLabel>Roles</SelectLabel>
+                {roleItems.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
             </SelectContent>
           </Select>
 
           <Select
+            name="status"
+            items={statusItems}
             value={
               activeFilter?.field === "banned" ? (activeFilter.value ? "banned" : "active") : "all"
             }
             onValueChange={handleStatusFilter}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Status" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="admin">Active</SelectItem>
-              <SelectItem value="user">Banned</SelectItem>
+              <SelectGroup>
+                <SelectLabel>Status</SelectLabel>
+                {statusItems.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
             </SelectContent>
           </Select>
         </div>

@@ -36,6 +36,11 @@ interface CreateUserDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const roleItems = [
+  { label: "User", value: "user" },
+  { label: "Admin", value: "admin" },
+];
+
 export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) {
   const queryClient = useQueryClient();
 
@@ -164,15 +169,19 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
                     <FieldLabel>Role</FieldLabel>
                     <Select
                       name={field.name}
+                      items={roleItems}
                       value={field.state.value}
                       onValueChange={(val) => field.handleChange(val as "user" | "admin")}
                     >
                       <SelectTrigger aria-invalid={isInvalid}>
-                        <SelectValue className="capitalize" />
+                        <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="user">User</SelectItem>
-                        <SelectItem value="admin">Admin</SelectItem>
+                        {roleItems.map((item) => (
+                          <SelectItem key={item.value} value={item.value}>
+                            {item.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </Field>
