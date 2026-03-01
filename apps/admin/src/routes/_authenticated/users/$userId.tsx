@@ -23,6 +23,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon, MoreVerticalCircle01Icon } from "@hugeicons/core-free-icons";
 import { EditUserDialog } from "@dashmin/admin/features/users/components/edit-user-dialog";
 import { SetRoleDialog } from "@dashmin/admin/features/users/components/set-role-dialog";
+import { SetPasswordDialog } from "@dashmin/admin/features/users/components/set-password-dialog";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
   staticData: { title: "User Detail" },
@@ -50,7 +51,7 @@ function UserDetailPage() {
   // Dialog open states
   const [editOpen, setEditOpen] = useState(false);
   const [setRoleOpen, setSetRoleOpen] = useState(false);
-  const [_setPasswordOpen, setSetPasswordOpen] = useState(false);
+  const [setPasswordOpen, setSetPasswordOpen] = useState(false);
   const [_banOpen, setBanOpen] = useState(false);
   const [_unbanOpen, setUnbanOpen] = useState(false);
   const [_deleteOpen, setDeleteOpen] = useState(false);
@@ -202,7 +203,7 @@ function UserDetailPage() {
       {/* Action dialogs */}
       <EditUserDialog user={user} open={editOpen} onOpenChange={setEditOpen} />
       <SetRoleDialog user={user} open={setRoleOpen} onOpenChange={setSetRoleOpen} />
-      {/* <SetPasswordDialog userId={userId} open={setPasswordOpen} onOpenChange={setSetPasswordOpen} /> */}
+      <SetPasswordDialog userId={userId} open={setPasswordOpen} onOpenChange={setSetPasswordOpen} />
       {/* <BanUserDialog user={user} open={banOpen} onOpenChange={setBanOpen} /> */}
       {/* <UnbanUserDialog user={user} open={unbanOpen} onOpenChange={setUnbanOpen} /> */}
       {/* <DeleteUserDialog user={user} open={deleteOpen} onOpenChange={setDeleteOpen} /> */}
