@@ -7,6 +7,7 @@
   "dependencies": {
     "@dashmin/db": "workspace:*",
     "@hono/node-server": "^1.19.9",
+    "@hono/zod-validator": "^0.7.6",
     "better-auth": "^1.4.19",
     "drizzle-orm": "^0.45.1",
     "hono": "^4.12.1",

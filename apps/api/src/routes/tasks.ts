@@ -5,6 +5,7 @@ import { task, user } from "@dashmin/db";
 import { db } from "../lib/db";
 import { requireAdmin } from "../middleware/require-admin";
 import { auth } from "../lib/auth";
+import { zValidator } from "@hono/zod-validator";
 
 // Zod schemas
 const statusEnum = z.enum(["todo", "in_progress", "done"]);
@@ -175,24 +176,19 @@ export const tasksRoute = new Hono<Env>()
   })
 
   // Create task
-  .post("/", async (c) => {
-    const body = await c.req.json();
-    const parsed = createTaskSchema.safeParse(body);
-    if (!parsed.success) {
-      return c.json({ error: parsed.error.message }, 400);
-    }
-
+  .post("/", zValidator("json", createTaskSchema), async (c) => {
+    const body = c.req.valid("json");
     const currentUser = c.get("user");
 
     const [newTask] = await db
       .insert(task)
       .values({
-        title: parsed.data.title,
-        description: parsed.data.description,
-        status: parsed.data.status,
-        priority: parsed.data.priority,
-        dueDate: parsed.data.dueDate ? new Date(parsed.data.dueDate) : undefined,
-        assigneeId: parsed.data.assigneeId,
+        title: body.title,
+        description: body.description,
+        status: body.status,
+        priority: body.priority,
+        dueDate: body.dueDate ? new Date(body.dueDate) : undefined,
+        assigneeId: body.assigneeId,
         creatorId: currentUser.id,
       })
       .returning();
@@ -201,24 +197,20 @@ export const tasksRoute = new Hono<Env>()
   })
 
   // Update task
-  .patch("/:id", async (c) => {
+  .patch("/:id", zValidator("json", updateTaskSchema), async (c) => {
     const id = c.req.param("id");
-    const body = await c.req.json();
-    const parsed = updateTaskSchema.safeParse(body);
-    if (!parsed.success) {
-      return c.json({ error: parsed.error.message }, 400);
-    }
+    const body = c.req.valid("json");
 
     // Build the update object, only including provided fields
     const updates: Record<string, unknown> = {};
-    if (parsed.data.title !== undefined) updates.title = parsed.data.title;
-    if (parsed.data.description !== undefined) updates.description = parsed.data.description;
-    if (parsed.data.status !== undefined) updates.status = parsed.data.status;
-    if (parsed.data.priority !== undefined) updates.priority = parsed.data.priority;
-    if (parsed.data.dueDate !== undefined) {
-      updates.dueDate = parsed.data.dueDate ? new Date(parsed.data.dueDate) : null;
+    if (body.title !== undefined) updates.title = body.title;
+    if (body.description !== undefined) updates.description = body.description;
+    if (body.status !== undefined) updates.status = body.status;
+    if (body.priority !== undefined) updates.priority = body.priority;
+    if (body.dueDate !== undefined) {
+      updates.dueDate = body.dueDate ? new Date(body.dueDate) : null;
     }
-    if (parsed.data.assigneeId !== undefined) updates.assigneeId = parsed.data.assigneeId;
+    if (body.assigneeId !== undefined) updates.assigneeId = body.assigneeId;
 
     if (Object.keys(updates).length === 0) {
       return c.json({ error: "No fields to update" }, 400);

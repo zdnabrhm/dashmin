@@ -5,24 +5,21 @@ import { prettyJSON } from "hono/pretty-json";
 import { cors } from "hono/cors";
 import { tasksRoute } from "./routes/tasks";
 
-export const app = new Hono().basePath("/api/v1");
-
-// Middleware
-app.use("*", logger());
-app.use("*", prettyJSON());
-app.use(
-  "*",
-  cors({
-    origin: [process.env.FRONTEND_URL!],
-    allowHeaders: ["Content-Type", "Authorization"],
-    allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    exposeHeaders: ["Content-Length"],
-    maxAge: 600,
-    credentials: true,
-  }),
-);
-
-app
+export const app = new Hono()
+  .basePath("/api/v1")
+  .use("*", logger())
+  .use("*", prettyJSON())
+  .use(
+    "*",
+    cors({
+      origin: [process.env.FRONTEND_URL!],
+      allowHeaders: ["Content-Type", "Authorization"],
+      allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+      exposeHeaders: ["Content-Length"],
+      maxAge: 600,
+      credentials: true,
+    }),
+  )
   .on(["POST", "GET"], "/auth/*", async (c) => {
     return auth.handler(c.req.raw);
   })
