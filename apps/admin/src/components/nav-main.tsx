@@ -5,7 +5,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@dashmin/ui/components/sidebar";
-import { DashboardSquare01Icon, UserGroupIcon } from "@hugeicons/core-free-icons";
+import { DashboardSquare01Icon, TaskEdit01Icon, UserGroupIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Link, useMatchRoute } from "@tanstack/react-router";
 
@@ -14,6 +14,11 @@ const menuItems = [
     title: "Dashboard",
     url: "/",
     icon: <HugeiconsIcon icon={DashboardSquare01Icon} strokeWidth={2} />,
+  },
+  {
+    title: "Tasks",
+    url: "/tasks",
+    icon: <HugeiconsIcon icon={TaskEdit01Icon} strokeWidth={2} />,
   },
   {
     title: "Users",
