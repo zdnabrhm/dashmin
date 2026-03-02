@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { z } from "zod";
-import { eq, desc, asc, like, and, sql, type SQL } from "drizzle-orm";
+import { eq, desc, asc, like, and, sql, inArray, type SQL } from "drizzle-orm";
 import { task, user } from "@dashmin/db";
 import { db } from "../lib/db";
 import { requireAdmin } from "../middleware/require-admin";
@@ -38,7 +38,7 @@ const listTasksSchema = z.object({
     .default("createdAt"),
   sortDirection: z.enum(["asc", "desc"]).optional().default("desc"),
   search: z.string().optional(),
-  status: z.string().optional(),
+  status: z.union([z.string(), z.array(z.string())]).optional(),
   priority: z.string().optional(),
   assigneeId: z.string().optional(),
 });
@@ -81,7 +81,12 @@ export const tasksRoute = new Hono<Env>()
       conditions.push(like(task.title, `%${search}%`));
     }
     if (status) {
-      conditions.push(eq(task.status, status));
+      const statuses = Array.isArray(status) ? status : [status];
+      if (statuses.length === 1) {
+        conditions.push(eq(task.status, statuses[0]));
+      } else {
+        conditions.push(inArray(task.status, statuses));
+      }
     }
     if (priority) {
       conditions.push(eq(task.priority, priority));
@@ -132,6 +137,45 @@ export const tasksRoute = new Hono<Env>()
       total: Number(countResult.count),
     });
   })
+
+  // Task stats
+  .get(
+    "/stats",
+    zValidator(
+      "query",
+      z.object({
+        assigneeId: z.string().optional(),
+      }),
+    ),
+    async (c) => {
+      const { assigneeId } = c.req.valid("query");
+
+      const conditions: SQL[] = [];
+      if (assigneeId) {
+        conditions.push(eq(task.assigneeId, assigneeId));
+      }
+
+      const where = conditions.length > 0 ? and(...conditions) : undefined;
+
+      const rows = await db
+        .select({
+          status: task.status,
+          count: sql<number>`count(*)`,
+        })
+        .from(task)
+        .where(where)
+        .groupBy(task.status);
+
+      const counts: Record<string, number> = { todo: 0, in_progress: 0, done: 0 };
+      let total = 0;
+      for (const row of rows) {
+        counts[row.status] = Number(row.count);
+        total += Number(row.count);
+      }
+
+      return c.json({ counts, total });
+    },
+  )
 
   // Get single task
   .get("/:id", async (c) => {

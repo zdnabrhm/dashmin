@@ -55,78 +55,36 @@ function Dashboard() {
   const bannedCount = bannedUsers?.data?.total ?? 0;
   const activeCount = totalCount - bannedCount;
 
-  // Open tasks stat
-  const { data: openTasksData } = useQuery({
-    queryKey: queryKeys.tasks.stats.total,
+  // Task stats
+  const { data: taskStats } = useQuery({
+    queryKey: queryKeys.tasks.stats.byStatus,
     queryFn: async () => {
-      // Fetch todo tasks count
-      const todoRes = await api.api.v1.tasks.$get({
-        query: { limit: "1", status: "todo" },
-      });
-      const todoData = todoRes.ok ? await todoRes.json() : { total: 0 };
-
-      // Fetch in_progress tasks count
-      const inProgressRes = await api.api.v1.tasks.$get({
-        query: { limit: "1", status: "in_progress" },
-      });
-      const inProgressData = inProgressRes.ok ? await inProgressRes.json() : { total: 0 };
-
-      return (todoData.total ?? 0) + (inProgressData.total ?? 0);
+      const res = await api.api.v1.tasks.stats.$get({ query: {} });
+      if (!res.ok) return { counts: { todo: 0, in_progress: 0, done: 0 }, total: 0 };
+      return res.json();
     },
   });
 
-  const openTasksCount = openTasksData ?? 0;
+  const openTasksCount = (taskStats?.counts.todo ?? 0) + (taskStats?.counts.in_progress ?? 0);
 
-  // My Tasks widget
+  // My Tasks widget via multi-status list (1 request, server-side sorted)
   const { data: myTasksData } = useQuery({
     queryKey: queryKeys.tasks.list({
       assigneeId: session.user.id,
       widget: "my-tasks",
     }),
     queryFn: async () => {
-      const todoRes = await api.api.v1.tasks.$get({
+      const res = await api.api.v1.tasks.$get({
         query: {
           limit: "5",
           assigneeId: session.user.id,
-          status: "todo",
+          status: ["todo", "in_progress"],
           sortBy: "priority",
           sortDirection: "desc",
         },
       });
-      if (!todoRes.ok) return { tasks: [] };
-
-      const todoData = await todoRes.json();
-
-      const todoRes2 = await api.api.v1.tasks.$get({
-        query: {
-          limit: "5",
-          assigneeId: session.user.id,
-          status: "in_progress",
-          sortBy: "priority",
-          sortDirection: "desc",
-        },
-      });
-      if (!todoRes2.ok) return { tasks: todoData.tasks };
-
-      const inProgressData = await todoRes2.json();
-
-      // Merge, sort by priority (urgent > high > medium > low), then by due date
-      const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
-      const merged = [...todoData.tasks, ...inProgressData.tasks]
-        .sort((a, b) => {
-          const pa = priorityOrder[a.priority as keyof typeof priorityOrder] ?? 4;
-          const pb = priorityOrder[b.priority as keyof typeof priorityOrder] ?? 4;
-          if (pa !== pb) return pa - pb;
-          // Then by due date (soonest first, null last)
-          if (a.dueDate && b.dueDate)
-            return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-          if (a.dueDate) return -1;
-          if (b.dueDate) return 1;
-          return 0;
-        })
-        .slice(0, 5);
-
-      return { tasks: merged };
+      if (!res.ok) return { tasks: [] };
+      return res.json();
     },
   });
 
