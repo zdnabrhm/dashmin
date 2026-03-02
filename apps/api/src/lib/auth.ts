@@ -3,6 +3,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin } from "better-auth/plugins";
 import * as schema from "@dashmin/db";
 import { db } from "./db";
+import { uuidv7 } from "uuidv7";
 
 export const auth = betterAuth({
   basePath: "/api/v1/auth",
@@ -15,4 +16,9 @@ export const auth = betterAuth({
     enabled: true,
   },
   plugins: [admin()],
+  advanced: {
+    database: {
+      generateId: () => uuidv7(),
+    },
+  },
 });

@@ -1,6 +1,6 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import type { createDb } from "./client";
-import type { account, session, user, verification } from "./schema";
+import type { account, session, task, user, verification } from "./schema";
 
 export type Db = ReturnType<typeof createDb>;
 
@@ -15,3 +15,6 @@ export type CreateSession = InferInsertModel<typeof session>;
 
 export type Verification = InferSelectModel<typeof verification>;
 export type CreateVerification = InferInsertModel<typeof verification>;
+
+export type Task = InferSelectModel<typeof task>;
+export type CreateTask = InferInsertModel<typeof task>;

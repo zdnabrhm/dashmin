@@ -12,18 +12,18 @@ This feature establishes the pattern for all future custom entities: Drizzle sch
 
 ### `task` table (`packages/db/src/schema/task.ts`)
 
-| Column        | Type        | Default    | Nullable | Description                                        |
-| ------------- | ----------- | ---------- | -------- | -------------------------------------------------- |
-| `id`          | `text`      | `cuid2()`  | no       | Primary key (generated via `@paralleldrive/cuid2`) |
-| `title`       | `text`      | —          | no       | Short summary                                      |
-| `description` | `text`      | —          | yes      | Longer details (plain text)                        |
-| `status`      | `text`      | `"todo"`   | no       | `"todo"` \| `"in_progress"` \| `"done"`            |
-| `priority`    | `text`      | `"medium"` | no       | `"low"` \| `"medium"` \| `"high"` \| `"urgent"`    |
-| `dueDate`     | `timestamp` | —          | yes      | Optional deadline                                  |
-| `assigneeId`  | `text`      | —          | yes      | FK → `user.id` (SET NULL on delete)                |
-| `creatorId`   | `text`      | —          | no       | FK → `user.id` (SET NULL on delete)                |
-| `createdAt`   | `timestamp` | `now()`    | no       |                                                    |
-| `updatedAt`   | `timestamp` | `now()`    | no       | Auto-updated via `$onUpdate`                       |
+| Column        | Type        | Default    | Nullable | Description                                     |
+| ------------- | ----------- | ---------- | -------- | ----------------------------------------------- |
+| `id`          | `text`      | `uuidv7()` | no       | Primary key (generated via `uuidv7` — RFC 9562) |
+| `title`       | `text`      | —          | no       | Short summary                                   |
+| `description` | `text`      | —          | yes      | Longer details (plain text)                     |
+| `status`      | `text`      | `"todo"`   | no       | `"todo"` \| `"in_progress"` \| `"done"`         |
+| `priority`    | `text`      | `"medium"` | no       | `"low"` \| `"medium"` \| `"high"` \| `"urgent"` |
+| `dueDate`     | `timestamp` | —          | yes      | Optional deadline                               |
+| `assigneeId`  | `text`      | —          | yes      | FK → `user.id` (SET NULL on delete)             |
+| `creatorId`   | `text`      | —          | no       | FK → `user.id` (SET NULL on delete)             |
+| `createdAt`   | `timestamp` | `now()`    | no       |                                                 |
+| `updatedAt`   | `timestamp` | `now()`    | no       | Auto-updated via `$onUpdate`                    |
 
 **Indexes:**
 
@@ -351,7 +351,9 @@ The `hc` client from `hono/client` gives us end-to-end type safety from route ha
 
 ### ID generation
 
-Use `cuid2` for task IDs (same collision-resistant, URL-safe format as better-auth's IDs). Add `@paralleldrive/cuid2` to `packages/db` dependencies. Generate IDs at the DB schema level via `.$defaultFn(() => createId())` so they're set automatically on insert.
+Use `uuidv7` for task IDs (RFC 9562 — time-sorted, collision-resistant). Add `uuidv7` to `packages/db` dependencies. Generate IDs at the DB schema level via `.$defaultFn(() => uuidv7())` so they're set automatically on insert.
+
+Also configure better-auth to use UUIDv7 via `advanced.generateId` so all tables (user, session, account, verification) use the same ID format. See [better-auth custom ID generation docs](https://better-auth.com/docs/concepts/database#option-2-custom-id-generation-function).
 
 ### Assignee resolution
 

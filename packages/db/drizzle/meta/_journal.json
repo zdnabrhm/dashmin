@@ -15,6 +15,13 @@
       "when": 1772058412469,
       "tag": "0001_add_admin_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1772434209192,
+      "tag": "0002_add_task_table",
+      "breakpoints": true
     }
   ]
 }
