@@ -171,7 +171,7 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
                       name={field.name}
                       items={roleItems}
                       value={field.state.value}
-                      onValueChange={(val) => field.handleChange(val as "user" | "admin")}
+                      onValueChange={(value) => field.handleChange(value as "user" | "admin")}
                     >
                       <SelectTrigger aria-invalid={isInvalid}>
                         <SelectValue />
