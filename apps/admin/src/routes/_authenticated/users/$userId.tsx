@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useState } from "react";
+import { toast } from "sonner";
+import type { Session } from "@dashmin/db";
 
 import { Avatar, AvatarFallback } from "@dashmin/ui/components/avatar";
 import { Badge } from "@dashmin/ui/components/badge";
@@ -19,6 +22,7 @@ import { Separator } from "@dashmin/ui/components/separator";
 import { Skeleton } from "@dashmin/ui/components/skeleton";
 
 import { queryKeys } from "@dashmin/admin/lib/query-keys";
+import { DataTable } from "@dashmin/admin/components/data-table";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon, MoreVerticalCircle01Icon } from "@hugeicons/core-free-icons";
 import { EditUserDialog } from "@dashmin/admin/features/users/components/edit-user-dialog";
@@ -26,6 +30,8 @@ import { SetPasswordDialog } from "@dashmin/admin/features/users/components/set-
 import { BanUserDialog } from "@dashmin/admin/features/users/components/ban-user-dialog";
 import { UnbanUserDialog } from "@dashmin/admin/features/users/components/unban-user-dialog";
 import { DeleteUserDialog } from "@dashmin/admin/features/users/components/delete-user-dialog";
+import { sessionColumns } from "@dashmin/admin/features/users/components/session-columns";
+import { RevokeAllSessionsDialog } from "@dashmin/admin/features/users/components/revoke-all-sessions-dialog";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
   staticData: { title: "User Detail" },
@@ -34,8 +40,9 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 
 function UserDetailPage() {
   const { userId } = Route.useParams();
-  const { authClient } = Route.useRouteContext();
+  const { authClient, queryClient } = Route.useRouteContext();
 
+  // User query
   const { data: user, isLoading } = useQuery({
     queryKey: queryKeys.users.detail(userId),
     queryFn: () =>
@@ -50,12 +57,48 @@ function UserDetailPage() {
     select: (res) => res.data?.users[0],
   });
 
+  // Sessions query
+  const { data: sessionsData, isLoading: sessionsLoading } = useQuery({
+    queryKey: queryKeys.users.sessions(userId),
+    queryFn: () => authClient.admin.listUserSessions({ userId }),
+    enabled: !!user,
+  });
+  const sessions = (sessionsData?.data?.sessions ?? []) as Session[];
+
+  // Revoke single session mutation
+  const revokeSessionMutation = useMutation({
+    mutationFn: async (sessionToken: string) => {
+      const { error } = await authClient.admin.revokeUserSession({ sessionToken });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.users.sessions(userId) });
+      toast.success("Session revoked");
+    },
+    onError: (error) => {
+      toast.error(error.message ?? "Failed to revoke session");
+    },
+  });
+
+  // Sessions table
+  const sessionsTable = useReactTable({
+    data: sessions,
+    columns: sessionColumns,
+    getCoreRowModel: getCoreRowModel(),
+    initialState: { pagination: { pageSize: 5, pageIndex: 0 } },
+    meta: {
+      onRevokeSession: (token: string) => revokeSessionMutation.mutate(token),
+      isRevoking: revokeSessionMutation.isPending,
+    },
+  });
+
   // Dialog open states
   const [editOpen, setEditOpen] = useState(false);
   const [setPasswordOpen, setSetPasswordOpen] = useState(false);
   const [banOpen, setBanOpen] = useState(false);
   const [unbanOpen, setUnbanOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [revokeAllOpen, setRevokeAllOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -200,12 +243,37 @@ function UserDetailPage() {
         </CardContent>
       </Card>
 
+      {/* Sessions section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Sessions</CardTitle>
+          <CardAction>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => setRevokeAllOpen(true)}
+              disabled={sessions.length === 0}
+            >
+              Revoke All
+            </Button>
+          </CardAction>
+        </CardHeader>
+        <CardContent>
+          <DataTable
+            table={sessionsTable}
+            columnCount={sessionColumns.length}
+            isLoading={sessionsLoading}
+          />
+        </CardContent>
+      </Card>
+
       {/* Action dialogs */}
       <EditUserDialog user={user} open={editOpen} onOpenChange={setEditOpen} />
       <SetPasswordDialog userId={userId} open={setPasswordOpen} onOpenChange={setSetPasswordOpen} />
       <BanUserDialog user={user} open={banOpen} onOpenChange={setBanOpen} />
       <UnbanUserDialog user={user} open={unbanOpen} onOpenChange={setUnbanOpen} />
       <DeleteUserDialog user={user} open={deleteOpen} onOpenChange={setDeleteOpen} />
+      <RevokeAllSessionsDialog user={user} open={revokeAllOpen} onOpenChange={setRevokeAllOpen} />
     </div>
   );
 }
