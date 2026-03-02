@@ -3,6 +3,7 @@ import { auth } from "./lib/auth";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { cors } from "hono/cors";
+import { tasksRoute } from "./routes/tasks";
 
 export const app = new Hono().basePath("/api/v1");
 
@@ -33,6 +34,7 @@ app
       status: "ok",
       timestamp: new Date().toISOString(),
     });
-  });
+  })
+  .route("/tasks", tasksRoute);
 
 export type AppType = typeof app;
