@@ -86,7 +86,7 @@ export function CreateTaskDialog({ open, onOpenChange }: CreateTaskDialogProps) 
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error((err as { error: string }).error ?? "Failed to create task");
+        throw new Error((err as unknown as { error: string }).error ?? "Failed to create task");
       }
       return res.json();
     },

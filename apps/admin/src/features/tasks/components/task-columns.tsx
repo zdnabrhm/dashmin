@@ -1,5 +1,6 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@dashmin/ui/components/badge";
+import type { TaskRow } from "../types";
 
 const statusDisplay: Record<
   string,
