@@ -16,6 +16,7 @@ import { CommandIcon } from "@hugeicons/core-free-icons";
 import { NavMain } from "../components/nav-main";
 import { NavUser } from "../components/nav-user";
 import { Header } from "../components/header";
+import { ImpersonationBanner } from "../components/impersonation-banner";
 
 export const Route = createFileRoute("/_authenticated")({
   beforeLoad: async ({ context }) => {
@@ -24,20 +25,22 @@ export const Route = createFileRoute("/_authenticated")({
       throw redirect({ to: "/login" });
     }
 
-    if (session.user.role !== "admin") {
-      // Authenticated but not admin, sign them out and redirect
+    const isImpersonating = !!session.session.impersonatedBy;
+
+    // Allow through if admin OR if this is an impersonation session
+    if (session.user.role !== "admin" && !isImpersonating) {
       await context.authClient.signOut();
       throw redirect({ to: "/login" });
     }
 
     // Pass session to child routes via context
-    return { session };
+    return { session, isImpersonating };
   },
   component: AuthenticatedLayout,
 });
 
 function AuthenticatedLayout({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { session } = Route.useRouteContext();
+  const { session, isImpersonating } = Route.useRouteContext();
   const matches = useMatches();
   const title = (matches.at(-1)?.staticData as { title?: string })?.title ?? "Dashboard";
 
@@ -65,6 +68,7 @@ function AuthenticatedLayout({ ...props }: React.ComponentProps<typeof Sidebar>)
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
+        {isImpersonating && <ImpersonationBanner userName={session.user.name} />}
         <Header title={title} />
         <Outlet />
       </SidebarInset>

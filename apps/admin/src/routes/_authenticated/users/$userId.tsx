@@ -32,6 +32,7 @@ import { UnbanUserDialog } from "@dashmin/admin/features/users/components/unban-
 import { DeleteUserDialog } from "@dashmin/admin/features/users/components/delete-user-dialog";
 import { sessionColumns } from "@dashmin/admin/features/users/components/session-columns";
 import { RevokeAllSessionsDialog } from "@dashmin/admin/features/users/components/revoke-all-sessions-dialog";
+import { ImpersonateUserDialog } from "@dashmin/admin/components/impersonate-user-dialog";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
   staticData: { title: "User Detail" },
@@ -40,7 +41,7 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 
 function UserDetailPage() {
   const { userId } = Route.useParams();
-  const { authClient, queryClient } = Route.useRouteContext();
+  const { authClient, queryClient, isImpersonating } = Route.useRouteContext();
 
   // User query
   const { data: user, isLoading } = useQuery({
@@ -99,6 +100,7 @@ function UserDetailPage() {
   const [unbanOpen, setUnbanOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [revokeAllOpen, setRevokeAllOpen] = useState(false);
+  const [impersonateOpen, setImpersonateOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -191,6 +193,11 @@ function UserDetailPage() {
                   <DropdownMenuItem onClick={() => setSetPasswordOpen(true)}>
                     Set Password
                   </DropdownMenuItem>
+                  {!isImpersonating && (
+                    <DropdownMenuItem onClick={() => setImpersonateOpen(true)}>
+                      Impersonate
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 {isBanned ? (
@@ -274,6 +281,7 @@ function UserDetailPage() {
       <UnbanUserDialog user={user} open={unbanOpen} onOpenChange={setUnbanOpen} />
       <DeleteUserDialog user={user} open={deleteOpen} onOpenChange={setDeleteOpen} />
       <RevokeAllSessionsDialog user={user} open={revokeAllOpen} onOpenChange={setRevokeAllOpen} />
+      <ImpersonateUserDialog user={user} open={impersonateOpen} onOpenChange={setImpersonateOpen} />
     </div>
   );
 }
