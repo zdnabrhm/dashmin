@@ -1,5 +1,5 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { type User } from "@dashmin/db";
+import { type User } from "@dashmin/db/shared";
 import { Badge } from "@dashmin/ui/components/badge";
 
 export const userColumns: ColumnDef<User>[] = [

@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useState } from "react";
 import { toast } from "sonner";
-import type { Session } from "@dashmin/db";
+import type { Session } from "@dashmin/db/shared";
 
 import { Avatar, AvatarFallback } from "@dashmin/ui/components/avatar";
 import { Badge } from "@dashmin/ui/components/badge";

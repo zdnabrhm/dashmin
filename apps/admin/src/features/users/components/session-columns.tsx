@@ -1,5 +1,5 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { type Session } from "@dashmin/db";
+import { type Session } from "@dashmin/db/shared";
 import { Button } from "@dashmin/ui/components/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@dashmin/ui/components/tooltip";
 

@@ -4,7 +4,7 @@ import { useDebouncedValue } from "@tanstack/react-pacer";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@dashmin/admin/lib/query-keys";
 import { getCoreRowModel, useReactTable, type SortingState } from "@tanstack/react-table";
-import type { User } from "@dashmin/db";
+import type { User } from "@dashmin/db/shared";
 import { Input } from "@dashmin/ui/components/input";
 import {
   Select,
