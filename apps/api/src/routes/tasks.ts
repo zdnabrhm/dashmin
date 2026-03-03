@@ -1,11 +1,11 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { eq, desc, asc, like, and, sql, inArray, type SQL } from "drizzle-orm";
-import { task, user } from "@dashmin/db";
-import { db } from "../lib/db";
-import { requireAdmin } from "../middleware/require-admin";
-import { auth } from "../lib/auth";
+import { db } from "../lib/db.js";
+import { requireAdmin } from "../middleware/require-admin.js";
+import { auth } from "../lib/auth.js";
 import { zValidator } from "@hono/zod-validator";
+import { task, user } from "@dashmin/db/server";
 
 // Zod schemas
 const statusEnum = z.enum(["todo", "in_progress", "done"]);

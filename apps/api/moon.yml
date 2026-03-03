@@ -15,6 +15,8 @@ tasks:
   dev:
     command: "dotenvx run -f ../../.env -- tsx watch src/index.ts"
     preset: "server"
+    deps:
+      - "db:build"
 
   build:
     command: "tsc"
@@ -27,6 +29,7 @@ tasks:
   start:
     command: "dotenvx run -f ../../.env -- node dist/index.js"
     deps:
+      - "db:build"
       - "~:build"
 
   fmt:

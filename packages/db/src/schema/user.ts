@@ -1,8 +1,8 @@
 import { relations } from "drizzle-orm";
 import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { account } from "./account";
-import { session } from "./session";
-import { task } from "./task";
+import { account } from "./account.js";
+import { session } from "./session.js";
+import { task } from "./task.js";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),

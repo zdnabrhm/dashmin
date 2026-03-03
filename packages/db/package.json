@@ -3,9 +3,8 @@
   "version": "0.0.0",
   "type": "module",
   "exports": {
-    ".": "./src/server.ts",
-    "./server": "./src/server.ts",
-    "./shared": "./src/shared.ts"
+    "./server": "./dist/server.js",
+    "./shared": "./dist/shared.js"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.1",

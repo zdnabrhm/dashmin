@@ -1,9 +1,9 @@
 import { Hono } from "hono";
-import { auth } from "./lib/auth";
+import { auth } from "./lib/auth.js";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { cors } from "hono/cors";
-import { tasksRoute } from "./routes/tasks";
+import { tasksRoute } from "./routes/tasks.js";
 
 export const app = new Hono()
   .basePath("/api/v1")

@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { createDb } from "./client";
-import { user } from "./schema";
+import { createDb } from "./client.js";
+import { user } from "./schema/index.js";
 
 const ADMIN_EMAIL = "admin@dashmin.com";
 const ADMIN_PASSWORD = "admin123_";

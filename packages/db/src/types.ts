@@ -1,6 +1,6 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import type { createDb } from "./client";
-import type { account, session, task, user, verification } from "./schema";
+import type { createDb } from "./client.js";
+import type { account, session, task, user, verification } from "./schema/index.js";
 
 export type Db = ReturnType<typeof createDb>;
 

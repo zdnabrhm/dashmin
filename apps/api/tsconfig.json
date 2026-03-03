@@ -3,10 +3,12 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/api/*": ["./src/*"]
+      "@dashmin/api/*": ["./src/*"]
     }
   },
   "exclude": ["node_modules"]
