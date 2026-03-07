@@ -5,7 +5,7 @@
     "target": "ES2022",
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["vite/client"],
+    "types": ["vite/client", "node"],
 
     /* Bundler mode */
     "allowImportingTsExtensions": true,
@@ -23,7 +23,6 @@
     "baseUrl": ".",
     "paths": {
       "@dashmin/admin/*": ["./src/*"],
-      "@dashmin/ui/style.css": ["../../packages/ui/dist/style.css"],
       "@dashmin/ui/*": ["../../packages/ui/src/*"]
     }
   },

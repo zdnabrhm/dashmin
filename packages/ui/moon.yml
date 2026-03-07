@@ -12,17 +12,6 @@ fileGroups:
     - "/packages/typescript-config/*.json"
 
 tasks:
-  dev:
-    command: "pnpm exec tailwindcss -i ./src/style.css -o ./dist/style.css --watch"
-    preset: "server"
-
-  build:
-    command: "pnpm exec tailwindcss -i ./src/style.css -o ./dist/style.css"
-    inputs:
-      - "@group(sources)"
-    outputs:
-      - "dist"
-
   fmt:
     script: "oxfmt ."
     inputs:

@@ -6,6 +6,7 @@ tags: ["react", "vite"]
 
 dependsOn:
   - "ui"
+  - "db"
 
 fileGroups:
   sources:
@@ -22,7 +23,6 @@ tasks:
     command: "vite"
     preset: "server"
     deps:
-      - "ui:dev"
       - "api:dev"
 
   build:
@@ -34,7 +34,7 @@ tasks:
     outputs:
       - "dist"
     deps:
-      - "ui:build"
+      - "db:build"
       - "api:build"
 
   start:

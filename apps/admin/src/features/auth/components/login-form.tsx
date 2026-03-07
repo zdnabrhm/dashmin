@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@dashmin/ui/components/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@dashmin/ui/components/field";
-import { Input } from "@dashmin/ui/components/input";
+
 import { Button } from "@dashmin/ui/components/button";
 import { cn } from "@dashmin/ui/lib/utils";
 import { z } from "zod";
@@ -14,6 +14,7 @@ import { useForm } from "@tanstack/react-form";
 import { authClient } from "@dashmin/admin/lib/auth";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
+import { Input } from "@dashmin/ui/components/input";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),

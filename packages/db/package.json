@@ -3,8 +3,14 @@
   "version": "0.0.0",
   "type": "module",
   "exports": {
-    "./server": "./dist/server.js",
-    "./shared": "./dist/shared.js"
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    },
+    "./shared": {
+      "types": "./dist/shared.d.ts",
+      "import": "./dist/shared.js"
+    }
   },
   "dependencies": {
     "drizzle-orm": "^0.45.1",

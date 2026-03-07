@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import "./index.css";
+import "@dashmin/ui/style.css";
 import { authClient } from "./lib/auth";
 
 // Import the generated route tree

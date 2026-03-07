@@ -5,7 +5,6 @@
     "baseUrl": ".",
     "paths": {
       "@dashmin/admin/*": ["./src/*"],
-      "@dashmin/ui/style.css": ["../../packages/ui/dist/style.css"],
       "@dashmin/ui/*": ["../../packages/ui/src/*"]
     }
   }
